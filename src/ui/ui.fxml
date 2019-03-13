@@ -1,0 +1,40 @@
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.RadioButton?>
+<BorderPane fx:controller="ui.Controller"
+            xmlns:fx="http://javafx.com/fxml">
+    <fx:define>
+        <ToggleGroup fx:id="toggleGroup"/>
+    </fx:define>
+
+    <top>
+        <fx:include source="ui_menu.fxml"/>
+    </top>
+    <center>
+        <ScrollPane fx:id="scroll" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+            <content>
+                <Canvas fx:id="canvas" width="200" height="200"></Canvas>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <right>
+        <VBox spacing="30" prefWidth="200">
+            <children>
+                <RadioButton fx:id="langton" text="Set Langton param"
+                             toggleGroup="$toggleGroup"/>
+                <RadioButton fx:id="rule" text="Set rule number"
+                             toggleGroup="$toggleGroup"/>
+
+                <Text fx:id="text" text="Set number of neighbours"></Text>
+                <Text fx:id="text1" text="Set rule number"></Text>
+            </children>
+
+        </VBox>
+    </right>
+
+</BorderPane>
