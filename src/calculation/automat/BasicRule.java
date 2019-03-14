@@ -11,7 +11,11 @@ public class BasicRule extends Rule {
 
 	@Override
 	protected void fillStatesArray() {
-		// IMPL: wypelnianie tablicy statesArray bitami zmiennej ruleNumber
+		for(int i = 0; i < 8; ++i) {
+			if ( (ruleNumber & (1 << i)) != 0 ) {
+				statesArray[i] = true;
+			}
+		}
 	}
 
 	@Override

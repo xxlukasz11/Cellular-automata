@@ -9,14 +9,16 @@ public abstract class BaseRowImpl implements Row {
 
     @Override
     public double calculateEntropy(int neighbours) {
-        // IMPL: entropia jednego rzedu
+        // IMPL : entropia
         return 0.0;
     }
 
     @Override
     public double calculateDensity(boolean state) {
-        // IMPL: gestosc stanu state w danym rzedzie
-        return 0.0;
+        int count = 0;
+        for(var x : statesArray)
+            if(x) count++;
+        return (double)(count)/width;
     }
 
     @Override
