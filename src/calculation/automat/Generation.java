@@ -1,4 +1,4 @@
-package calculation;
+package calculation.automat;
 
 public class Generation extends BaseRowImpl {
 
@@ -16,5 +16,5 @@ public class Generation extends BaseRowImpl {
 	}
 
 	// numer danej generacji
-	private final int id;
+	protected final int id;
 }

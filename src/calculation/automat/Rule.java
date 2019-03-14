@@ -1,4 +1,4 @@
-package calculation;
+package calculation.automat;
 
 public abstract class Rule extends BaseRowImpl {
 
@@ -7,7 +7,8 @@ public abstract class Rule extends BaseRowImpl {
         this.neighbours = neighbours;
     }
 
+    protected abstract void fillStatesArray();
     public abstract String getRuleString();
 
-    private int neighbours;
+    protected int neighbours;
 }

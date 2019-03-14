@@ -1,4 +1,4 @@
-package calculation;
+package calculation.automat;
 
 public abstract class BaseRowImpl implements Row {
 
@@ -8,7 +8,7 @@ public abstract class BaseRowImpl implements Row {
     }
 
     @Override
-    public double calculateEntropy() {
+    public double calculateEntropy(int neighbours) {
         // IMPL: entropia jednego rzedu
         return 0.0;
     }
@@ -17,11 +17,6 @@ public abstract class BaseRowImpl implements Row {
     public double calculateDensity(boolean state) {
         // IMPL: gestosc stanu state w danym rzedzie
         return 0.0;
-    }
-
-    @Override
-    public void fillRandom(double lambda) {
-        // IMPL: wstawianie jedynek wedlug parametru lambda do statesArray
     }
 
     @Override

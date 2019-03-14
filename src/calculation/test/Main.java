@@ -1,8 +1,10 @@
 package calculation.test;
 
-import calculation.AutomatLifeCycle;
-import calculation.InitialGeneration;
-import calculation.NormalRule;
+import calculation.automat.AutomatLifeCycle;
+import calculation.automat.InitialGeneration;
+import calculation.automat.BasicRule;
+import calculation.random.Generator;
+import calculation.random.LambdaGenerator;
 
 public class Main {
 
@@ -11,20 +13,18 @@ public class Main {
 	public static void main(String[] args){
 		int width = 10;
 
-		var rule  = new NormalRule(90);
-		var init = new InitialGeneration(width);
-
-		init.fillRandom(0.4);
-		// lub
-		// init.setState(2, true);
+		Generator gen = new LambdaGenerator(0.4);
+		var rule  = new BasicRule(90);
+		var init = new InitialGeneration(width, gen);
 
 
-		var lf = new AutomatLifeCycle(width, rule, init);
+		var lf = new AutomatLifeCycle(init, rule);
 		lf.createGenerations(10);
 
 		var generations = lf.getGenerations();
 		for(var row : generations){
-			for(var cell : row.getCells())
+			var cells = row.getCells();
+			for(var cell : cells)
 				System.out.print( cell ? "*" : " ");
 			System.out.println();
 		}

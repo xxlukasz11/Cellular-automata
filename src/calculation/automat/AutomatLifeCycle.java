@@ -1,20 +1,18 @@
-package calculation;
+package calculation.automat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AutomatLifeCycle {
 
-	public AutomatLifeCycle(int automatWidth, Rule rule, InitialGeneration initialGeneration){
-		this.automatWidth = automatWidth;
+	public AutomatLifeCycle(InitialGeneration initialGeneration, Rule rule){
+		this.automatWidth = initialGeneration.getWidth();
 		this.rule = rule;
 		this.currentTime = 1;
 
+		this.generations = new ArrayList<>();
 		this.generations.add(initialGeneration);
-		this.lastGeneration = generations.get(0); // zeby trzymac w tej zmiennej tylko referencje a nie kopie
-	}
-
-	public List<Generation> getGenerations(){
-		return generations;
+		this.lastGeneration = generations.get(0);
 	}
 
 	public void createGenerations(int count){
@@ -36,6 +34,14 @@ public class AutomatLifeCycle {
 		// tworzymy liczbe z bitow na podstawie sasiedztwa i uzywamy metody rule.getState(int)
 
 		return nextGeneration;
+	}
+
+	public List<Generation> getGenerations(){
+		return generations;
+	}
+
+	public int getGenerationsCount(){
+		return generations.size();
 	}
 
 	private void incrementTime(){

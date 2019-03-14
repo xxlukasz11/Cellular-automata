@@ -1,14 +1,16 @@
-package calculation;
+package calculation.automat;
 
-public class NormalRule extends Rule {
+public class BasicRule extends Rule {
 
-	public NormalRule(int ruleNumber) {
+	public BasicRule(int ruleNumber) {
 		super(3);
 		this.ruleNumber = ruleNumber;
+
 		this.fillStatesArray();
 	}
 
-	private void fillStatesArray() {
+	@Override
+	protected void fillStatesArray() {
 		// IMPL: wypelnianie tablicy statesArray bitami zmiennej ruleNumber
 	}
 
@@ -17,5 +19,5 @@ public class NormalRule extends Rule {
 		return String.valueOf(ruleNumber);
 	}
 
-	private int ruleNumber;
+	private final int ruleNumber;
 }
