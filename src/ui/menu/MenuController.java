@@ -1,4 +1,4 @@
-package ui;
+package ui.menu;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -15,7 +15,9 @@ public class MenuController {
         dialog.initModality(Modality.APPLICATION_MODAL);
         VBox dialogVBox = new VBox(20);
         dialogVBox.getChildren().add(new Text(aboutUs()));
-        Scene dialogScene = new Scene(dialogVBox, 300, 200);
+        Scene dialogScene = new Scene(dialogVBox, 400, 100);
+        dialog.setResizable(false);
+        dialog.setTitle("About");
         dialog.setScene(dialogScene);
         dialog.show();
 
