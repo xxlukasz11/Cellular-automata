@@ -3,7 +3,7 @@ package calculation.automat;
 public class BasicRule extends Rule {
 
 	public BasicRule(int ruleNumber) {
-		super(3);
+		super(1);
 		this.ruleNumber = ruleNumber;
 
 		this.fillStatesArray();

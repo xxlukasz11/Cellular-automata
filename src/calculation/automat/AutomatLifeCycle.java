@@ -21,18 +21,21 @@ public class AutomatLifeCycle {
 	}
 
 	private void addNext(){
-		var nextGen = getNext();
+		var nextGen = createNext();
 		generations.add( nextGen );
 		lastGeneration = generations.get( generations.size()-1 );
 		incrementTime();
 	}
 
-	private Generation getNext(){
+	private Generation createNext(){
 		Generation nextGeneration = new Generation(automatWidth, currentTime);
 
-		// IMPL: kod tworzacy nastepna generacje na podstawie rule
-		// tworzymy liczbe z bitow na podstawie sasiedztwa i uzywamy metody rule.getState(int)
+		var it = new NeighbourhoodIterator(lastGeneration.getCells(), rule.getNeighbours());
 
+		for(int i = 0; it.hasNext(); ++i){
+			int index = it.getNext();
+			nextGeneration.setState(i, rule.getState(index));
+		}
 		return nextGeneration;
 	}
 

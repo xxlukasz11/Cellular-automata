@@ -9,8 +9,23 @@ public abstract class BaseRowImpl implements Row {
 
     @Override
     public double calculateEntropy(int neighbours) {
-        // IMPL : entropia
-        return 0.0;
+        var bins = new int[width];
+        var it = new NeighbourhoodIterator(statesArray, neighbours);
+
+        while(it.hasNext()){
+            int index = it.getNext();
+            bins[index]++;
+        }
+
+        double entropy = 0.0;
+        for(var x : bins){
+            if(x != 0){
+                double ratio = (double)(x)/width;
+                entropy -= ratio*Math.log10(ratio);
+            }
+        }
+
+        return entropy;
     }
 
     @Override

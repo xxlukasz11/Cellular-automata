@@ -1,5 +1,7 @@
 package calculation.automat;
 
+import calculation.random.LambdaGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,8 @@ public class LambdaRule extends Rule {
 
 	@Override
 	protected void fillStatesArray() {
-		// IMPL: losowanie na podstawie lambdy
+		var gen = new LambdaGenerator(lambda);
+		gen.fillArray(statesArray);
 	}
 
 	@Override
