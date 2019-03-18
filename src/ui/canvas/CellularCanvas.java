@@ -2,13 +2,23 @@ package ui.canvas;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class CellularCanvas extends Canvas {
 
-    // TODO: implement logic of CA
-
     public void init() {
         GraphicsContext gc = this.getGraphicsContext2D();
-        gc.fillRect(20, 20, 200, 400);
+        // random boolean array
+        boolean[] array = {true, true, false, false, true};
+        int size = (int) (this.getWidth() / array.length); // ?
+        System.out.println(size);
+        for (int i = 0; i < array.length; i++) {
+            drawCell(gc, array[i], size * i, 0, size, size);
+        }
+    }
+
+    private void drawCell(GraphicsContext gc, boolean alive, int x, int y, int width, int height) {
+        gc.setFill(alive ? Color.BLACK : Color.YELLOW);
+        gc.fillRect(x, y, width, height);
     }
 }

@@ -12,6 +12,7 @@ public class OptionsController {
     public void initialize() {
         rule.setSelected(true);
         disableRadioButton(true);
+        info.setText(getInfo());
     }
 
     public void disableLambda() {
@@ -21,7 +22,6 @@ public class OptionsController {
     public void disableRule() {
         disableRadioButton(false);
     }
-
 
     private void disableRadioButton(boolean isLambda) {
         lambdaText.setDisable(isLambda);
@@ -35,40 +35,38 @@ public class OptionsController {
 
     public double getLambda() {
         try {
-            var lambda = Double.valueOf(lambdaInput.getText());
-            return lambda;
+            return Double.valueOf(lambdaInput.getText());
         } catch (NotNumberException e) {
             System.out.println(e.getMessage());
-        } finally {
-            return -1;
         }
+        return 0;
     }
 
     public int getRule() {
         try {
-            var rule = Integer.valueOf(ruleInput.getText());
+            int rule = Integer.valueOf(ruleInput.getText());
             if (rule >= 0 && rule <= 255)
                 return rule;
             else
                 System.out.println("Specify rule in range 0-255");
         } catch (NotNumberException e) {
             System.out.println(e.getMessage());
-        } finally {
-            return -1;
         }
+        return 0;
     }
 
     public int getNeighbours() {
         try {
-            var neighbours = Integer.valueOf(neighboursInput.getText());
-            return neighbours;
+            return Integer.valueOf(neighboursInput.getText());
         } catch (NotNumberException e) {
             System.out.println(e.getMessage());
-        } finally {
-            return -1;
         }
+        return 0;
     }
 
+    public String getInfo() {
+        return "INFO:\nBlack cells - alive\nYellow cells - dead";
+    }
 
     @FXML
     private Text lambdaText;
@@ -90,4 +88,8 @@ public class OptionsController {
 
     @FXML
     private TextField ruleInput;
+
+    @FXML
+    private Text info;
+
 }
