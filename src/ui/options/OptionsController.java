@@ -64,7 +64,37 @@ public class OptionsController {
         return 0;
     }
 
-    public String getInfo() {
+    public int getSize() {
+        try {
+            return Integer.valueOf(sizeArray.getText());
+        } catch (NotNumberException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public int getGenerationTime() {
+        try {
+            return Integer.valueOf(timeInput.getText());
+        } catch (NotNumberException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public void startSimulation() {
+        int size = getSize();
+        int generationTime = getGenerationTime();
+        int neighbours = getNeighbours();
+        int rule = getRule();
+        double lambda = getLambda();
+        System.out.println("\n\tSimulation starts...");
+        System.out.println("\tSize: " + size + "\tGeneration time: " + generationTime);
+        System.out.println("\tNeighbours: " + neighbours);
+        // if `rule` radio button is selected... else ...
+    }
+
+    private String getInfo() {
         return "INFO:\nBlack cells - alive\nYellow cells - dead";
     }
 
@@ -92,4 +122,9 @@ public class OptionsController {
     @FXML
     private Text info;
 
+    @FXML
+    private TextField timeInput;
+
+    @FXML
+    private TextField sizeArray;
 }
