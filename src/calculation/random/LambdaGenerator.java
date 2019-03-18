@@ -1,15 +1,36 @@
 package calculation.random;
 
-public class LambdaGenerator implements Generator{
+import java.util.Random;
 
-	public LambdaGenerator(double lambda) {
-		this.lambda = lambda;
-	}
+public class LambdaGenerator implements Generator {
 
-	@Override
-	public void fillArray(boolean[] array) {
-		// IMPL: wypelnianie na podstawie lambdy
-	}
+    public LambdaGenerator(double lambda, int neighbours) {
+        this.lambda = lambda;
+        this.neighbours = neighbours;
+    }
 
-	private double lambda;
+    @Override
+    public void fillArray(boolean[] array) {
+        // Lambda = c / 2^k
+        // where: c - no. of ones, k - no. of neighbours
+        int c = (int) (lambda * Math.pow(2, 2 * neighbours + 1));
+        Random r = new Random();
+        for (int i = 0; i < array.length; i++) {
+            if (i < c)
+                array[i] = true;
+            else
+                array[i] = false;
+        }
+        // shuffle
+        for (int i = 0; i < array.length; i++) {
+            int randomPos = r.nextInt(array.length);
+            boolean tmp = array[i];
+            array[i] = array[randomPos];
+            array[randomPos] = tmp;
+        }
+    }
+
+    private double lambda;
+
+    private int neighbours;
 }
