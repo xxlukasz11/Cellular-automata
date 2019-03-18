@@ -4,19 +4,17 @@ import java.util.Random;
 
 public class LambdaGenerator implements Generator {
 
-    public LambdaGenerator(double lambda, int neighbours) {
+    public LambdaGenerator(double lambda) {
         this.lambda = lambda;
-        this.neighbours = neighbours;
     }
 
     @Override
     public void fillArray(boolean[] array) {
-        // Lambda = c / 2^k
-        // where: c - no. of ones, k - no. of neighbours
-        int c = (int) (lambda * Math.pow(2, 2 * neighbours + 1));
+        int nOfOnes = (int) (lambda*array.length);
+
         Random r = new Random();
         for (int i = 0; i < array.length; i++) {
-            if (i < c)
+            if (i < nOfOnes)
                 array[i] = true;
             else
                 array[i] = false;
@@ -31,6 +29,4 @@ public class LambdaGenerator implements Generator {
     }
 
     private double lambda;
-
-    private int neighbours;
 }

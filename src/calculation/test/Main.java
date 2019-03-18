@@ -9,16 +9,15 @@ public class Main {
     // Example of use
 
     public static void main(String[] args) {
-        Generator gen = new LambdaGenerator(0.4, 3);
-        var rule = new BasicRule(90);
+        Generator gen = new LambdaGenerator(0.2);
         var init = new InitialGeneration(40, gen);
-        init.setState(10, true);
 
+        var rule = new LambdaRule(2, 0.40);
         var lf = new AutomatLifeCycle(init, rule);
-        lf.createGenerations(40);
-
+        lf.createGenerations(10);
 
         // draw
+        System.out.println("Rule: " + rule.getRuleString());
         var generations = lf.getGenerations();
         for (var row : generations) {
 

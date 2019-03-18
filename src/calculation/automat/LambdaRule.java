@@ -3,6 +3,7 @@ package calculation.automat;
 import calculation.random.LambdaGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LambdaRule extends Rule {
@@ -17,7 +18,7 @@ public class LambdaRule extends Rule {
 
     @Override
     protected void fillStatesArray() {
-        var gen = new LambdaGenerator(lambda, neighbours);
+        var gen = new LambdaGenerator(lambda);
         gen.fillArray(statesArray);
     }
 
@@ -32,12 +33,13 @@ public class LambdaRule extends Rule {
         for (int i = 0; i < width / 8; ++i) {
             int bt = 0;
             for (int j = 0; j < 8; ++j) {
-                statesArray[8 * i + j] = true;
                 if (statesArray[8 * i + j])
                     bt |= (1 << j);
             }
             hexes.add(Integer.toHexString(bt));
         }
+
+        Collections.reverse(hexes);
         ruleString = String.join(" ", hexes);
     }
 
