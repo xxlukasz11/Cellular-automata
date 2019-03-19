@@ -18,46 +18,12 @@ public class Controller {
         optionsController.setMainController(this);
     }
 
-    public void setupCA() {
-        // TODO: check what radioButton is selected and implement logic
-        System.out.println("\n\tSimulation starts...");
-        System.out.println("\tSize: " + size + "\tGeneration time: " + generationTime);
-        System.out.println("\tNeighbours: " + neighbours);
-
-        Generator gen = new LambdaGenerator(lambda);
-        var init = new InitialGeneration(size, gen);
-
-        var lRule = new LambdaRule(neighbours, lambda);
-        var lf = new AutomatLifeCycle(init, lRule);
-        lf.createGenerations(generationTime);
-    }
-
     public CellularCanvas getCanvas() {
         return canvas;
     }
 
     public VBox getContainer() {
         return container;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public void setLambda(double lambda) {
-        this.lambda = lambda;
-    }
-
-    public void setGenerationTime(int generationTime) {
-        this.generationTime = generationTime;
-    }
-
-    public void setNeighbours(int neighbours) {
-        this.neighbours = neighbours;
-    }
-
-    public void setRule(int rule) {
-        this.rule = rule;
     }
 
     @FXML
@@ -71,14 +37,4 @@ public class Controller {
 
     @FXML
     private VBox container;
-
-    private int size;
-
-    private int neighbours;
-
-    private int generationTime;
-
-    private int rule;
-
-    private double lambda;
 }

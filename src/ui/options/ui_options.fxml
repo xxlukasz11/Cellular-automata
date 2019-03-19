@@ -24,7 +24,7 @@
         </VBox>
     </GridPane>
     <GridPane styleClass="lambda" alignment="center">
-        <RadioButton fx:id="lambda" text="Langton parameter"
+        <RadioButton fx:id="lambdaRadioButton" text="Langton parameter"
                      toggleGroup="$toggleGroup" onAction="#disableRule" GridPane.rowIndex="0"/>
         <VBox GridPane.rowIndex="1">
             <Text fx:id="lambdaText" text="Lambda"/>
@@ -34,7 +34,7 @@
         </VBox>
     </GridPane>
     <GridPane styleClass="rule">
-        <RadioButton fx:id="rule" text="No. rule"
+        <RadioButton fx:id="ruleRadioButton" text="No. rule"
                      toggleGroup="$toggleGroup" onAction="#disableLambda" GridPane.rowIndex="0"/>
         <VBox GridPane.rowIndex="1">
             <Text fx:id="ruleText" text="Rule"/>

@@ -1,5 +1,8 @@
 package ui.options;
 
+import calculation.automat.*;
+import calculation.random.Generator;
+import calculation.random.LambdaGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -18,32 +21,37 @@ public class OptionsController {
     public void setupSimulation() {
         controller.getCanvas().widthProperty().bind(controller.getContainer().widthProperty());
         controller.getCanvas().clearCanvas();
-
-        controller.setLambda(getLambda());
-        controller.setGenerationTime(getGenerationTime());
-        controller.setNeighbours(getNeighbours());
-        controller.setSize(getSize());
-        controller.setRule(getRule());
-
-        // just for test
-        Random r = new Random();
-        for (int i = 0; i < getGenerationTime(); i++) {
-            boolean[] gen0 = new boolean[getSize()];
-            for (int j = 0; j < gen0.length; j++) {
-                gen0[j] = r.nextBoolean();
-            }
-            controller.getCanvas().drawOneGeneration(gen0, i);
-        }
+        controller.getCanvas().setRasterSize(getSize());
+        controller.getCanvas().adjustHeight(getGenerationTime());
     }
 
     public void startSimulation() {
-        controller.setupCA();
-        // if `rule` radio button is selected... else ...
+        setupSimulation();
+
+        Rule rule;
+
+        if(ruleRadioButton.isSelected()){
+            rule = new BasicRule(getRuleNumber());
+        }
+        else{
+            rule = new LambdaRule(getNeighbours(), getLambda());
+        }
+
+        Random r = new Random();
+        Generator gen = new LambdaGenerator(r.nextDouble());
+        var init = new InitialGeneration(getSize(), gen);
+
+        var lf = new AutomatLifeCycle(init, rule);
+        lf.createGenerations(getGenerationTime());
+
+        for (var generation : lf.getGenerations()) {
+            controller.getCanvas().drawOneGeneration(generation);
+        }
     }
 
     @FXML
     public void initialize() {
-        rule.setSelected(true);
+        ruleRadioButton.setSelected(true);
         disableRadioButton(true);
         info.setText(getInfo());
     }
@@ -75,7 +83,7 @@ public class OptionsController {
         return 0;
     }
 
-    private int getRule() {
+    private int getRuleNumber() {
         try {
             int rule = Integer.valueOf(ruleInput.getText());
             if (rule >= 0 && rule <= 255)
@@ -132,7 +140,10 @@ public class OptionsController {
     private TextField neighboursInput;
 
     @FXML
-    private RadioButton rule;
+    private RadioButton ruleRadioButton;
+
+    @FXML
+    private RadioButton lambdaRadioButton;
 
     @FXML
     private Text ruleText;
