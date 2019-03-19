@@ -1,5 +1,10 @@
 package ui.options;
 
+import calculation.automat.AutomatLifeCycle;
+import calculation.automat.InitialGeneration;
+import calculation.automat.LambdaRule;
+import calculation.random.Generator;
+import calculation.random.LambdaGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -91,6 +96,18 @@ public class OptionsController {
         System.out.println("\n\tSimulation starts...");
         System.out.println("\tSize: " + size + "\tGeneration time: " + generationTime);
         System.out.println("\tNeighbours: " + neighbours);
+
+        Generator gen = new LambdaGenerator(lambda);
+        var init = new InitialGeneration(getSize(), gen);
+
+        var lRule = new LambdaRule(neighbours, lambda);
+        var lf = new AutomatLifeCycle(init, lRule);
+        lf.createGenerations(generationTime);
+        lf.getGenerations().forEach(e -> {
+            var cells = e.getCells();
+            // TODO:
+        });
+
         // if `rule` radio button is selected... else ...
     }
 
