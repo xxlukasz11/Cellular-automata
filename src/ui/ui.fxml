@@ -1,6 +1,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import ui.canvas.CellularCanvas?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane fx:controller="ui.Controller"
             xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
 
@@ -9,10 +10,12 @@
     </top>
 
     <center>
-        <ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-                    hbarPolicy="NEVER" vbarPolicy="ALWAYS">
-            <CellularCanvas fx:id="canvas" width="150" height="1200"/>
-        </ScrollPane>
+        <VBox fx:id="container">
+            <ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+                        hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                <CellularCanvas fx:id="canvas" width="200" height="1200"/>
+            </ScrollPane>
+        </VBox>
     </center>
 
     <right>
