@@ -1,11 +1,23 @@
 .options {
-    -fx-spacing: 10px;
+    -fx-spacing: 30px;
     -fx-padding: 10px;
     -fx-text-alignment: center;
 }
 
+.rule, .lambda {
+    -fx-border-color: #000000;
+    -fx-padding: 10px;
+    -fx-border-insets: 5px;
+    -fx-vgap: 20px;
+}
+
 #start {
-    -fx-padding: 20px;
+    -fx-background-color: linear-gradient(#f2f2f2, #d6d6d6),
+    linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
+    linear-gradient(#dddddd 0%, #f6f6f6 50%);
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 3, 2, 1;
+    -fx-padding: 3 30 3 30;
 }
 
 #start:hover {
