@@ -23,7 +23,6 @@ public class MenuController {
 
     }
 
-
     private String aboutUs() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n\tCellular automata simulation program\n");

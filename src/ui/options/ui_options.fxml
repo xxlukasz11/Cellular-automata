@@ -43,11 +43,18 @@
     </GridPane>
     <BorderPane>
         <center>
-            <Button fx:id="start" text="Start simulation" onAction="#startSimulation">
-                <BorderPane.margin>
-                    <Insets bottom="25.0" top="25.0"/>
-                </BorderPane.margin>
-            </Button>
+            <VBox alignment="CENTER">
+                <Button fx:id="setup" text="Setup" onAction="#setupSimulation">
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="25.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="start" text="Start" onAction="#startSimulation">
+                    <VBox.margin>
+                        <Insets bottom="25.0" top="10.0"/>
+                    </VBox.margin>
+                </Button>
+            </VBox>
         </center>
         <bottom>
             <Text fx:id="info">

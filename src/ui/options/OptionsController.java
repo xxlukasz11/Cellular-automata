@@ -4,9 +4,42 @@ import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import ui.Controller;
 import ui.exceptions.NotNumberException;
 
+import java.util.Random;
+
 public class OptionsController {
+
+    public void setMainController(Controller controller) {
+        this.controller = controller;
+    }
+
+    public void setupSimulation() {
+        controller.getCanvas().widthProperty().bind(controller.getContainer().widthProperty());
+        controller.getCanvas().clearCanvas();
+
+        controller.setLambda(getLambda());
+        controller.setGenerationTime(getGenerationTime());
+        controller.setNeighbours(getNeighbours());
+        controller.setSize(getSize());
+        controller.setRule(getRule());
+
+        // just for test
+        Random r = new Random();
+        for (int i = 0; i < getGenerationTime(); i++) {
+            boolean[] gen0 = new boolean[getSize()];
+            for (int j = 0; j < gen0.length; j++) {
+                gen0[j] = r.nextBoolean();
+            }
+            controller.getCanvas().drawOneGeneration(gen0, i);
+        }
+    }
+
+    public void startSimulation() {
+        controller.setupCA();
+        // if `rule` radio button is selected... else ...
+    }
 
     @FXML
     public void initialize() {
@@ -33,7 +66,7 @@ public class OptionsController {
         ruleInput.setDisable(!isLambda);
     }
 
-    public double getLambda() {
+    private double getLambda() {
         try {
             return Double.valueOf(lambdaInput.getText());
         } catch (NotNumberException e) {
@@ -42,7 +75,7 @@ public class OptionsController {
         return 0;
     }
 
-    public int getRule() {
+    private int getRule() {
         try {
             int rule = Integer.valueOf(ruleInput.getText());
             if (rule >= 0 && rule <= 255)
@@ -55,7 +88,7 @@ public class OptionsController {
         return 0;
     }
 
-    public int getNeighbours() {
+    private int getNeighbours() {
         try {
             return Integer.valueOf(neighboursInput.getText());
         } catch (NotNumberException e) {
@@ -64,7 +97,7 @@ public class OptionsController {
         return 0;
     }
 
-    public int getSize() {
+    private int getSize() {
         try {
             return Integer.valueOf(sizeArray.getText());
         } catch (NotNumberException e) {
@@ -73,25 +106,13 @@ public class OptionsController {
         return 0;
     }
 
-    public int getGenerationTime() {
+    private int getGenerationTime() {
         try {
             return Integer.valueOf(timeInput.getText());
         } catch (NotNumberException e) {
             System.out.println(e.getMessage());
         }
         return 0;
-    }
-
-    public void startSimulation() {
-        int size = getSize();
-        int generationTime = getGenerationTime();
-        int neighbours = getNeighbours();
-        int rule = getRule();
-        double lambda = getLambda();
-        System.out.println("\n\tSimulation starts...");
-        System.out.println("\tSize: " + size + "\tGeneration time: " + generationTime);
-        System.out.println("\tNeighbours: " + neighbours);
-        // if `rule` radio button is selected... else ...
     }
 
     private String getInfo() {
@@ -127,4 +148,6 @@ public class OptionsController {
 
     @FXML
     private TextField sizeArray;
+
+    private Controller controller;
 }

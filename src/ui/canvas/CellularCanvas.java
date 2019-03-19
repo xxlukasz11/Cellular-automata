@@ -6,14 +6,11 @@ import javafx.scene.paint.Color;
 
 public class CellularCanvas extends Canvas {
 
-    public void init() {
-        GraphicsContext gc = this.getGraphicsContext2D();
-        // random boolean array
-        boolean[] array = {true, true, false, false, true};
-        int size = (int) (this.getWidth() / array.length); // ?
-        System.out.println(size);
-        for (int i = 0; i < array.length; i++) {
-            drawCell(gc, array[i], size * i, 0, size, size);
+    public void drawOneGeneration(boolean[] array, int generationNumber) {
+        gc = this.getGraphicsContext2D();
+        int width = (int) (this.getWidth() / array.length);
+        for (int i = 0; i < array.length; ++i) {
+            drawCell(gc, array[i], i * width, generationNumber * width, width, width);
         }
     }
 
@@ -21,4 +18,11 @@ public class CellularCanvas extends Canvas {
         gc.setFill(alive ? Color.BLACK : Color.YELLOW);
         gc.fillRect(x, y, width, height);
     }
+
+    public void clearCanvas() {
+        gc = this.getGraphicsContext2D();
+        gc.clearRect(0, 0, this.getWidth(), this.getHeight());
+    }
+
+    private GraphicsContext gc;
 }

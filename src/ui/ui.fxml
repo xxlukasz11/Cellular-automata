@@ -1,22 +1,25 @@
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import ui.canvas.CellularCanvas?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane fx:controller="ui.Controller"
             xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
 
     <top>
-        <fx:include source="menu/ui_menu.fxml"/>
+        <fx:include fx:id="menu" source="menu/ui_menu.fxml"/>
     </top>
+
     <center>
-        <ScrollPane fx:id="scroll" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
-            <content>
-                <CellularCanvas fx:id="canvas" width="150" height="1200"></CellularCanvas>
-            </content>
-        </ScrollPane>
+        <VBox fx:id="container">
+            <ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+                        hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                <CellularCanvas fx:id="canvas" width="200" height="1200"/>
+            </ScrollPane>
+        </VBox>
     </center>
 
     <right>
-        <fx:include source="options/ui_options.fxml"/>
+        <fx:include fx:id="options" source="options/ui_options.fxml"/>
     </right>
 
 </BorderPane>
