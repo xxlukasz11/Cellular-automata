@@ -46,13 +46,13 @@ public class OptionsController {
         if(ones < 0)
             throw new WrongParameterException("Number of ones cannot be negative");
 
-        if(neighbours < 0)
-            throw new WrongParameterException("Number of neighbours cannot be negative");
+        if(neighbours < 0 || neighbours > 10)
+            throw new WrongParameterException("Number of neighbours must be between 0 and 10");
 
         if(ones > width)
             throw new WrongParameterException("Number of ones cannot be greater than generation width");
 
-        if( width > controller.getCanvas().getWidth() ){
+        if( width > controller.getContainer().getWidth() ){
             throw new WrongParameterException("Width of generation is greater than canvas width");
         }
 

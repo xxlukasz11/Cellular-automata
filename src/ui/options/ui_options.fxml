@@ -18,9 +18,9 @@
     <GridPane alignment="center">
         <VBox>
             <Text text="Time"/>
-            <TextField fx:id="timeInput" text="100"/>
-            <Text text="Size of array"/>
-            <TextField fx:id="sizeArray" text="100"/>
+            <TextField fx:id="timeInput" text="600"/>
+            <Text text="Width of generation"/>
+            <TextField fx:id="sizeArray" text="600"/>
             <Text text="No. of ones"/>
             <TextField fx:id="noOfOnes" text="1"/>
             <Text fx:id="neighbourText" text="No. of neighbours"/>
