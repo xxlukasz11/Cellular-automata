@@ -1,13 +1,16 @@
 package ui.options;
 
+import calculation.automat.*;
+import calculation.random.Generator;
+import calculation.random.OnesGenerator;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import ui.Controller;
 import ui.exceptions.NotNumberException;
-
-import java.util.Random;
+import ui.exceptions.WrongParameterException;
 
 public class OptionsController {
 
@@ -15,35 +18,106 @@ public class OptionsController {
         this.controller = controller;
     }
 
-    public void setupSimulation() {
+    public void startSimulation(){
+        Params params;
+        try{
+            params = getParameters();
+        } catch (WrongParameterException | NotNumberException e){
+            showErrorDialog("Error", e.getMessage());
+            return;
+        }
+
+        setupSimulation(params);
+        simulate(params);
+    }
+
+    private Params getParameters() throws WrongParameterException, NotNumberException {
+        var time = getGenerationTime();
+        var width = getSize();
+        var ones = getNoOfOnes();
+        var neighbours = getNeighbours();
+
+        if(time < 0)
+            throw new WrongParameterException("Time cannot be negative");
+
+        if(width < 0)
+            throw new WrongParameterException("Width cannot be negative");
+
+        if(ones < 0)
+            throw new WrongParameterException("Number of ones cannot be negative");
+
+        if(neighbours < 0 || neighbours > 10)
+            throw new WrongParameterException("Number of neighbours must be between 0 and 10");
+
+        if(ones > width)
+            throw new WrongParameterException("Number of ones cannot be greater than generation width");
+
+        if( width > controller.getContainer().getWidth() ){
+            throw new WrongParameterException("Width of generation is greater than canvas width");
+        }
+
+        Params params = new Params();
+        params.setTime(time);
+        params.setWidth(width);
+        params.setNoOfOnes(ones);
+        params.setNeighbours(neighbours);
+
+        if(lambdaRadioButton.isSelected()){
+            var lambda = getLambda();
+            if(lambda > 1.0 || lambda < 0.0)
+                throw new WrongParameterException("Langton parameter must be between 0.0 and 1.0");
+            params.setLambda(lambda);
+        }
+        else {
+            var ruleNumber = getRuleNumber();
+            if(ruleNumber < 0 || ruleNumber > 255)
+                throw new WrongParameterException("Rule number must be between 0 and 255");
+            params.setRuleNumber(ruleNumber);
+        }
+
+        return params;
+    }
+
+    private void setupSimulation(Params params) {
         controller.getCanvas().widthProperty().bind(controller.getContainer().widthProperty());
         controller.getCanvas().clearCanvas();
+        controller.getCanvas().setRasterSize(params.getWidth());
+        controller.getCanvas().adjustHeight(params.getTime());
+    }
 
-        controller.setLambda(getLambda());
-        controller.setGenerationTime(getGenerationTime());
-        controller.setNeighbours(getNeighbours());
-        controller.setSize(getSize());
-        controller.setRule(getRule());
+    private void simulate(Params params) {
 
-        // just for test
-        Random r = new Random();
-        for (int i = 0; i < getGenerationTime(); i++) {
-            boolean[] gen0 = new boolean[getSize()];
-            for (int j = 0; j < gen0.length; j++) {
-                gen0[j] = r.nextBoolean();
-            }
-            controller.getCanvas().drawOneGeneration(gen0, i);
+        Rule rule;
+
+        if(ruleRadioButton.isSelected()){
+            rule = new BasicRule(params.getNeighbours(), params.getRuleNumber());
+        }
+        else{
+            rule = new LambdaRule(params.getNeighbours(), params.getLambda());
+        }
+
+        Generator gen = new OnesGenerator(params.getNoOfOnes());
+        var init = new InitialGeneration(params.getWidth(), gen);
+
+        var lf = new AutomatLifeCycle(init, rule);
+        lf.createGenerations(params.getTime());
+
+        for (var generation : lf.getGenerations()) {
+            controller.getCanvas().drawOneGeneration(generation);
         }
     }
 
-    public void startSimulation() {
-        controller.setupCA();
-        // if `rule` radio button is selected... else ...
+    private void showErrorDialog(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.setHeaderText("");
+        alert.showAndWait();
     }
 
     @FXML
     public void initialize() {
-        rule.setSelected(true);
+        ruleRadioButton.setSelected(true);
         disableRadioButton(true);
         info.setText(getInfo());
     }
@@ -59,60 +133,60 @@ public class OptionsController {
     private void disableRadioButton(boolean isLambda) {
         lambdaText.setDisable(isLambda);
         lambdaInput.setDisable(isLambda);
-        neighboursInput.setDisable(isLambda);
-        neighbourText.setDisable(isLambda);
 
         ruleText.setDisable(!isLambda);
         ruleInput.setDisable(!isLambda);
     }
 
     private double getLambda() {
-        try {
+        try{
             return Double.valueOf(lambdaInput.getText());
-        } catch (NotNumberException e) {
-            System.out.println(e.getMessage());
         }
-        return 0;
+       catch(NumberFormatException e){
+            throw new NotNumberException("Cannot convert Langton Parameter to number");
+       }
     }
 
-    private int getRule() {
-        try {
-            int rule = Integer.valueOf(ruleInput.getText());
-            if (rule >= 0 && rule <= 255)
-                return rule;
-            else
-                System.out.println("Specify rule in range 0-255");
-        } catch (NotNumberException e) {
-            System.out.println(e.getMessage());
+    private int getRuleNumber() {
+        try{
+            return Integer.valueOf(ruleInput.getText());
         }
-        return 0;
+        catch(NumberFormatException e){
+            throw new NotNumberException("Cannot convert rule to number");
+        }
     }
 
     private int getNeighbours() {
-        try {
+        try{
             return Integer.valueOf(neighboursInput.getText());
-        } catch (NotNumberException e) {
-            System.out.println(e.getMessage());
         }
-        return 0;
+        catch(NumberFormatException e){
+            throw new NotNumberException("Cannot convert neighbours to number");
+        }
     }
 
     private int getSize() {
         try {
             return Integer.valueOf(sizeArray.getText());
-        } catch (NotNumberException e) {
-            System.out.println(e.getMessage());
+        } catch (NumberFormatException e) {
+            throw new NotNumberException("Cannot convert generation width to number");
         }
-        return 0;
+    }
+
+    private int getNoOfOnes(){
+        try {
+            return Integer.valueOf(noOfOnes.getText());
+        } catch (NumberFormatException e) {
+            throw new NotNumberException("Cannot convert no. of ones to number");
+        }
     }
 
     private int getGenerationTime() {
         try {
             return Integer.valueOf(timeInput.getText());
-        } catch (NotNumberException e) {
-            System.out.println(e.getMessage());
+        } catch (NumberFormatException e) {
+            throw new NotNumberException("Cannot convert Time to number");
         }
-        return 0;
     }
 
     private String getInfo() {
@@ -132,7 +206,10 @@ public class OptionsController {
     private TextField neighboursInput;
 
     @FXML
-    private RadioButton rule;
+    private RadioButton ruleRadioButton;
+
+    @FXML
+    private RadioButton lambdaRadioButton;
 
     @FXML
     private Text ruleText;
@@ -148,6 +225,9 @@ public class OptionsController {
 
     @FXML
     private TextField sizeArray;
+
+    @FXML
+    private TextField noOfOnes;
 
     private Controller controller;
 }

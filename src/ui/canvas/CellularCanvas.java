@@ -1,16 +1,16 @@
 package ui.canvas;
 
+import calculation.automat.Generation;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class CellularCanvas extends Canvas {
 
-    public void drawOneGeneration(boolean[] array, int generationNumber) {
+    public void drawOneGeneration(Generation generation) {
         gc = this.getGraphicsContext2D();
-        int width = (int) (this.getWidth() / array.length);
-        for (int i = 0; i < array.length; ++i) {
-            drawCell(gc, array[i], i * width, generationNumber * width, width, width);
+        for (int i = 0; i < generation.getWidth(); ++i) {
+            drawCell(gc, generation.getState(i), i * rasterSize, generation.getId() * rasterSize, rasterSize, rasterSize);
         }
     }
 
@@ -24,5 +24,14 @@ public class CellularCanvas extends Canvas {
         gc.clearRect(0, 0, this.getWidth(), this.getHeight());
     }
 
+    public void setRasterSize(int width) {
+        rasterSize = (int) (this.getWidth() / width);
+    }
+
+    public void adjustHeight(int time) {
+        setHeight(rasterSize*time);
+    }
+
     private GraphicsContext gc;
+    private int rasterSize;
 }

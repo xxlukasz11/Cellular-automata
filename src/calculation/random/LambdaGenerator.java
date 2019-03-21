@@ -10,22 +10,9 @@ public class LambdaGenerator implements Generator {
 
     @Override
     public void fillArray(boolean[] array) {
-        int nOfOnes = (int) (lambda*array.length);
-
-        Random r = new Random();
-        for (int i = 0; i < array.length; i++) {
-            if (i < nOfOnes)
-                array[i] = true;
-            else
-                array[i] = false;
-        }
-        // shuffle
-        for (int i = 0; i < array.length; i++) {
-            int randomPos = r.nextInt(array.length);
-            boolean tmp = array[i];
-            array[i] = array[randomPos];
-            array[randomPos] = tmp;
-        }
+        int noOfOnes = (int) (lambda*array.length);
+        var gen = new OnesGenerator(noOfOnes);
+        gen.fillArray(array);
     }
 
     private double lambda;

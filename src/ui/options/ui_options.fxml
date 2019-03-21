@@ -17,24 +17,26 @@
 
     <GridPane alignment="center">
         <VBox>
-            <Text text="Generation time"/>
-            <TextField fx:id="timeInput" text="10"/>
-            <Text text="Size of array"/>
-            <TextField fx:id="sizeArray" text="10"/>
+            <Text text="Time"/>
+            <TextField fx:id="timeInput" text="600"/>
+            <Text text="Width of generation"/>
+            <TextField fx:id="sizeArray" text="600"/>
+            <Text text="No. of ones"/>
+            <TextField fx:id="noOfOnes" text="1"/>
+            <Text fx:id="neighbourText" text="No. of neighbours"/>
+            <TextField fx:id="neighboursInput" text="1"/>
         </VBox>
     </GridPane>
     <GridPane styleClass="lambda" alignment="center">
-        <RadioButton fx:id="lambda" text="Langton parameter"
+        <RadioButton fx:id="lambdaRadioButton" text="Langton parameter"
                      toggleGroup="$toggleGroup" onAction="#disableRule" GridPane.rowIndex="0"/>
         <VBox GridPane.rowIndex="1">
             <Text fx:id="lambdaText" text="Lambda"/>
             <TextField fx:id="lambdaInput" text="0.0"/>
-            <Text fx:id="neighbourText" text="No. of neighbours"/>
-            <TextField fx:id="neighboursInput" text="3"/>
         </VBox>
     </GridPane>
     <GridPane styleClass="rule">
-        <RadioButton fx:id="rule" text="No. rule"
+        <RadioButton fx:id="ruleRadioButton" text="No. rule"
                      toggleGroup="$toggleGroup" onAction="#disableLambda" GridPane.rowIndex="0"/>
         <VBox GridPane.rowIndex="1">
             <Text fx:id="ruleText" text="Rule"/>
@@ -44,11 +46,6 @@
     <BorderPane>
         <center>
             <VBox alignment="CENTER">
-                <Button fx:id="setup" text="Setup" onAction="#setupSimulation">
-                    <VBox.margin>
-                        <Insets bottom="10.0" top="25.0"/>
-                    </VBox.margin>
-                </Button>
                 <Button fx:id="start" text="Start" onAction="#startSimulation">
                     <VBox.margin>
                         <Insets bottom="25.0" top="10.0"/>

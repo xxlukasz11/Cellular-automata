@@ -2,8 +2,8 @@ package calculation.automat;
 
 public class BasicRule extends Rule {
 
-	public BasicRule(int ruleNumber) {
-		super(1);
+	public BasicRule(int neighbours, int ruleNumber) {
+		super(neighbours);
 		this.ruleNumber = ruleNumber;
 
 		this.fillStatesArray();
