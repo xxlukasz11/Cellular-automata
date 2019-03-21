@@ -2,8 +2,14 @@ package ui.exceptions;
 
 public class NotNumberException extends NumberFormatException {
 
+    public NotNumberException(String message) {
+        this.message = message;
+    }
+
     @Override
     public String getMessage() {
-        return "Unable to convert to number";
+        return message;
     }
+
+    private String message;
 }
