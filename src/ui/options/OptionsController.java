@@ -18,11 +18,11 @@ public class OptionsController {
         this.controller = controller;
     }
 
-    public void startSimulation(){
+    public void startSimulation() {
         Params params;
-        try{
+        try {
             params = getParameters();
-        } catch (WrongParameterException | NotNumberException e){
+        } catch (WrongParameterException | NotNumberException e) {
             showErrorDialog("Error", e.getMessage());
             return;
         }
@@ -37,22 +37,22 @@ public class OptionsController {
         var ones = getNoOfOnes();
         var neighbours = getNeighbours();
 
-        if(time < 0)
+        if (time < 0)
             throw new WrongParameterException("Time cannot be negative");
 
-        if(width < 0)
+        if (width < 0)
             throw new WrongParameterException("Width cannot be negative");
 
-        if(ones < 0)
+        if (ones < 0)
             throw new WrongParameterException("Number of ones cannot be negative");
 
-        if(neighbours < 0 || neighbours > 10)
+        if (neighbours < 0 || neighbours > 10)
             throw new WrongParameterException("Number of neighbours must be between 0 and 10");
 
-        if(ones > width)
+        if (ones > width)
             throw new WrongParameterException("Number of ones cannot be greater than generation width");
 
-        if( width > controller.getContainer().getWidth() ){
+        if (width > controller.getContainer().getWidth()) {
             throw new WrongParameterException("Width of generation is greater than canvas width");
         }
 
@@ -62,15 +62,14 @@ public class OptionsController {
         params.setNoOfOnes(ones);
         params.setNeighbours(neighbours);
 
-        if(lambdaRadioButton.isSelected()){
+        if (lambdaRadioButton.isSelected()) {
             var lambda = getLambda();
-            if(lambda > 1.0 || lambda < 0.0)
+            if (lambda > 1.0 || lambda < 0.0)
                 throw new WrongParameterException("Langton parameter must be between 0.0 and 1.0");
             params.setLambda(lambda);
-        }
-        else {
+        } else {
             var ruleNumber = getRuleNumber();
-            if(ruleNumber < 0 || ruleNumber > 255)
+            if (ruleNumber < 0 || ruleNumber > 255)
                 throw new WrongParameterException("Rule number must be between 0 and 255");
             params.setRuleNumber(ruleNumber);
         }
@@ -89,10 +88,9 @@ public class OptionsController {
 
         Rule rule;
 
-        if(ruleRadioButton.isSelected()){
-            rule = new BasicRule(params.getNeighbours(), params.getRuleNumber());
-        }
-        else{
+        if (ruleRadioButton.isSelected()) {
+            rule = new BasicRule(params.getRuleNumber());
+        } else {
             rule = new LambdaRule(params.getNeighbours(), params.getLambda());
         }
 
@@ -133,34 +131,33 @@ public class OptionsController {
     private void disableRadioButton(boolean isLambda) {
         lambdaText.setDisable(isLambda);
         lambdaInput.setDisable(isLambda);
+        neighboursInput.setDisable(isLambda);
+        neighbourText.setDisable(isLambda);
 
         ruleText.setDisable(!isLambda);
         ruleInput.setDisable(!isLambda);
     }
 
     private double getLambda() {
-        try{
+        try {
             return Double.valueOf(lambdaInput.getText());
-        }
-       catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new NotNumberException("Cannot convert Langton Parameter to number");
-       }
+        }
     }
 
     private int getRuleNumber() {
-        try{
+        try {
             return Integer.valueOf(ruleInput.getText());
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new NotNumberException("Cannot convert rule to number");
         }
     }
 
     private int getNeighbours() {
-        try{
+        try {
             return Integer.valueOf(neighboursInput.getText());
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new NotNumberException("Cannot convert neighbours to number");
         }
     }
@@ -173,7 +170,7 @@ public class OptionsController {
         }
     }
 
-    private int getNoOfOnes(){
+    private int getNoOfOnes() {
         try {
             return Integer.valueOf(noOfOnes.getText());
         } catch (NumberFormatException e) {
@@ -200,11 +197,10 @@ public class OptionsController {
     private TextField lambdaInput;
 
     @FXML
-    private Text neighbourText;
-
-    @FXML
     private TextField neighboursInput;
 
+    @FXML
+    private Text neighbourText;
     @FXML
     private RadioButton ruleRadioButton;
 
