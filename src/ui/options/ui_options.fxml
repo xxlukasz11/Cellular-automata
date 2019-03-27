@@ -54,11 +54,14 @@
             </VBox>
         </center>
         <bottom>
-            <Text fx:id="info">
-                <BorderPane.margin>
-                    <Insets bottom="25.0" left="10" right="10"/>
-                </BorderPane.margin>
-            </Text>
+            <VBox alignment="CENTER">
+                <Text text="Rule number" style="-fx-font-weight: bold;"/>
+                <Text fx:id="ruleNumber">
+                    <VBox.margin>
+                        <Insets bottom="25.0" left="10" right="10"/>
+                    </VBox.margin>
+                </Text>
+            </VBox>
         </bottom>
     </BorderPane>
 

@@ -15,7 +15,7 @@ public class CellularCanvas extends Canvas {
     }
 
     private void drawCell(GraphicsContext gc, boolean alive, int x, int y, int width, int height) {
-        gc.setFill(alive ? Color.BLACK : Color.YELLOW);
+        gc.setFill(alive ? Color.BLACK : Color.WHITE);
         gc.fillRect(x, y, width, height);
     }
 
@@ -29,7 +29,7 @@ public class CellularCanvas extends Canvas {
     }
 
     public void adjustHeight(int time) {
-        setHeight(rasterSize*time);
+        setHeight(rasterSize * time);
     }
 
     private GraphicsContext gc;
