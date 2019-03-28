@@ -24,10 +24,9 @@ public class AutomatLifeCycle {
 		var nextGen = createNext();
 		generations.add( nextGen );
 		lastGeneration = generations.get( generations.size()-1 );
-		incrementTime();
 	}
 
-	private Generation createNext(){
+	public Generation createNext(){
 		Generation nextGeneration = new Generation(automatWidth, currentTime);
 
 		var it = new NeighbourhoodIterator(lastGeneration.getCells(), rule.getNeighbours());
@@ -36,6 +35,8 @@ public class AutomatLifeCycle {
 			int index = it.getNext();
 			nextGeneration.setState(i, rule.getState(index));
 		}
+
+		incrementTime();
 		return nextGeneration;
 	}
 
