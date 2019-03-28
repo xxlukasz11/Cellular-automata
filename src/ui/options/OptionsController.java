@@ -12,6 +12,8 @@ import ui.Controller;
 import ui.exceptions.NotNumberException;
 import ui.exceptions.WrongParameterException;
 
+import java.util.StringTokenizer;
+
 public class OptionsController {
 
     public void setMainController(Controller controller) {
@@ -93,6 +95,7 @@ public class OptionsController {
         } else {
             rule = new LambdaRule(params.getNeighbours(), params.getLambda());
         }
+        ruleNumber.setText(addLineBreaks(rule.getRuleString(), 10));
 
         Generator gen = new OnesGenerator(params.getNoOfOnes());
         var init = new InitialGeneration(params.getWidth(), gen);
@@ -117,7 +120,6 @@ public class OptionsController {
     public void initialize() {
         ruleRadioButton.setSelected(true);
         disableRadioButton(true);
-        info.setText(getInfo());
     }
 
     public void disableLambda() {
@@ -186,8 +188,20 @@ public class OptionsController {
         }
     }
 
-    private String getInfo() {
-        return "INFO:\nBlack cells - alive\nYellow cells - dead";
+    private String addLineBreaks(String text, int maxLineWidth) {
+        StringTokenizer tok = new StringTokenizer(text, " ");
+        StringBuilder output = new StringBuilder(text.length());
+        int lineLen = 0;
+        while (tok.hasMoreTokens()) {
+            String word = tok.nextToken();
+            if (lineLen + word.length() > maxLineWidth) {
+                output.append("\n");
+                lineLen = 0;
+            }
+            output.append(word).append(" ");
+            lineLen += word.length();
+        }
+        return output.toString();
     }
 
     @FXML
@@ -214,7 +228,7 @@ public class OptionsController {
     private TextField ruleInput;
 
     @FXML
-    private Text info;
+    private Text ruleNumber;
 
     @FXML
     private TextField timeInput;
