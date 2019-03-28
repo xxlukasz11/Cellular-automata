@@ -4,34 +4,34 @@ import calculation.automat.*;
 import calculation.random.Generator;
 import calculation.random.LambdaGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
-    // Example of use
+    private static double calculateEntropy(Rule rule){
+        EntropyCollector collect = new EntropyCollector(rule, 10000);
+        return collect.calculateAverageEntropy(1);
+    }
 
     public static void main(String[] args) {
-        Generator gen = new LambdaGenerator(0.2);
-        var init = new InitialGeneration(40, gen);
+        int threadCount = 5;
+        List<Thread> threadPool = new ArrayList<>(threadCount);
+        Rule rule = new LambdaRule(2, 0.2);
 
-        var rule = new LambdaRule(2, 0.40);
-        var lf = new AutomatLifeCycle(init, rule);
-        lf.createGenerations(10);
+        for(int i = 0; i < threadCount; ++i){
+            threadPool.add(new Thread( () -> System.out.println(calculateEntropy(rule)) ));
+            threadPool.get(i).start();
+        }
 
-        // draw
-        System.out.println("Rule: " + rule.getRuleString());
-        var generations = lf.getGenerations();
-        for (var row : generations) {
+        System.out.println( calculateEntropy(rule) );
 
-            // draw cells
-            var cells = row.getCells();
-            for (var cell : cells)
-                System.out.print(cell ? "*" : " ");
+        try {
+            for(var thread : threadPool)
+                thread.join();
 
-            // draw entropy plot
-            int ent = (int) (row.calculateEntropy(rule.getNeighbours()) * 10);
-            System.out.print("|");
-            for (int i = 0; i < ent; ++i)
-                System.out.print(" ");
-            System.out.println(".");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
