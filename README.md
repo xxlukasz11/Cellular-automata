@@ -1,3 +1,3 @@
 # Cellular-automata
 
-Java GUI application generating one-dimansional Cellular Automata Output
+Java GUI application visualising one-dimansional cellular automata
